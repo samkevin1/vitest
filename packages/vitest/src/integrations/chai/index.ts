@@ -1,9 +1,10 @@
 import * as chai from 'chai'
 import './setup'
 import type { Test } from '@vitest/runner'
-import { GLOBAL_EXPECT, getState, setState } from '@vitest/expect'
+import type { Tester } from '@vitest/expect'
+import { GLOBAL_EXPECT, JEST_MATCHERS_OBJECT, getState, setState } from '@vitest/expect'
 import type { MatcherState } from '../../types/chai'
-import { getCurrentEnvironment, getFullName } from '../../utils'
+import { getCurrentEnvironment, getFullName, getType } from '../../utils'
 
 export function createExpect(test?: Test) {
   const expect = ((value: any, message?: string): Vi.Assertion => {
@@ -61,6 +62,22 @@ export function createExpect(test?: Test) {
       isExpectingAssertionsError: error,
     })
   }
+
+  const addCustomEqualityTesters = (newTesters: Array<Tester>): void => {
+    if (!Array.isArray(newTesters)) {
+      throw new TypeError(
+        `expect.customEqualityTesters: Must be set to an array of Testers. Was given "${getType(
+          newTesters,
+        )}"`,
+      )
+    }
+
+    (globalThis as any)[JEST_MATCHERS_OBJECT].customEqualityTesters.push(
+      ...newTesters,
+    )
+  }
+
+  expect.addEqualityTesters = customTesters => addCustomEqualityTesters(customTesters)
 
   chai.util.addMethod(expect, 'assertions', assertions)
   chai.util.addMethod(expect, 'hasAssertions', hasAssertions)

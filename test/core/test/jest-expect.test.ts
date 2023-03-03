@@ -2,6 +2,7 @@
 import { AssertionError } from 'assert'
 import { describe, expect, it, vi } from 'vitest'
 import { generateToBeMessage } from '@vitest/expect'
+import { Volume } from './testing/Volume'
 
 class TestError extends Error {}
 
@@ -349,6 +350,17 @@ describe('jest-expect', () => {
         bar: { foo: 'foo', bar: 100, arr: ['first', { zoo: 'monkey' }] },
       },
     ])
+  })
+
+  it('are equal with different units', () => {
+    function createVolume(amount: number, unit: 'L' | 'mL' = 'L') {
+      return new Volume(amount, unit)
+    }
+
+    const volume1 = createVolume(1, 'L')
+    const volume2 = createVolume(1000, 'mL')
+
+    expect(volume1).toEqual(volume2)
   })
 })
 

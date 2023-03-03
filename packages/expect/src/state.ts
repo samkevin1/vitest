@@ -12,6 +12,7 @@ if (!Object.prototype.hasOwnProperty.call(globalThis, MATCHERS_OBJECT)) {
     get: () => ({
       state: globalState.get((globalThis as any)[GLOBAL_EXPECT]),
       matchers,
+      customEqualityTesters: [],
     }),
   })
 }

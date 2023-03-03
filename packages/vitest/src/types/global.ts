@@ -1,5 +1,5 @@
 import type { Plugin as PrettyFormatPlugin } from 'pretty-format'
-import type { MatchersObject } from '@vitest/expect'
+import type { MatchersObject, Tester } from '@vitest/expect'
 import type SnapshotState from '../integrations/snapshot/port/state'
 import type { MatcherState } from './chai'
 import type { Constructable, UserConsoleLog } from './general'
@@ -55,6 +55,7 @@ declare global {
       getState(): MatcherState
       setState(state: Partial<MatcherState>): void
       not: AsymmetricMatchersContaining
+      addEqualityTesters: (testers: Array<Tester>) => void
     }
 
     interface AsymmetricMatchersContaining {
