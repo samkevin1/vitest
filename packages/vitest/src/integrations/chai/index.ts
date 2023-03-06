@@ -73,11 +73,11 @@ export function createExpect(test?: Test) {
     }
 
     (globalThis as any)[JEST_MATCHERS_OBJECT].customEqualityTesters.push(
-      ...newTesters,
+      newTesters,
     )
   }
 
-  expect.addEqualityTesters = customTesters => addCustomEqualityTesters(customTesters)
+  expect.addCustomEqualityTesters = customTesters => addCustomEqualityTesters(customTesters)
 
   chai.util.addMethod(expect, 'assertions', assertions)
   chai.util.addMethod(expect, 'hasAssertions', hasAssertions)

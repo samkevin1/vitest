@@ -1,8 +1,9 @@
 /* eslint-disable no-sparse-arrays */
 import { AssertionError } from 'assert'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { generateToBeMessage } from '@vitest/expect'
 import { Volume } from './testing/Volume'
+import { areVolumesEqual } from './testing/areVolumesEqual'
 
 class TestError extends Error {}
 
@@ -352,15 +353,21 @@ describe('jest-expect', () => {
     ])
   })
 
-  it('are equal with different units', () => {
-    function createVolume(amount: number, unit: 'L' | 'mL' = 'L') {
-      return new Volume(amount, unit)
-    }
+  describe('addCustomEqualityTesters', () => {
+    beforeEach(() => {
+      expect.addCustomEqualityTesters([areVolumesEqual])
+    })
 
-    const volume1 = createVolume(1, 'L')
-    const volume2 = createVolume(1000, 'mL')
+    it('are equal with different units', () => {
+      function createVolume(amount: number, unit: 'L' | 'mL' = 'L') {
+        return new Volume(amount, unit)
+      }
 
-    expect(volume1).toEqual(volume2)
+      const volume1 = createVolume(1, 'L')
+      const volume2 = createVolume(1000, 'mL')
+
+      expect(volume1).toEqual(volume2)
+    })
   })
 })
 

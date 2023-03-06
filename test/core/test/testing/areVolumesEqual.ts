@@ -5,7 +5,7 @@ function isVolume(a: unknown): a is Volume {
   return a instanceof Volume
 }
 
-function areVolumesEqual(a: unknown, b: unknown): boolean | undefined {
+export function areVolumesEqual(a: unknown, b: unknown): boolean | undefined {
   const isAVolume = isVolume(a)
   const isBVolume = isVolume(b)
 
@@ -17,4 +17,4 @@ function areVolumesEqual(a: unknown, b: unknown): boolean | undefined {
     return undefined
 }
 
-expect.addEqualityTesters([areVolumesEqual])
+expect.addCustomEqualityTesters([areVolumesEqual])

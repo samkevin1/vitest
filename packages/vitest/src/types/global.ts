@@ -55,7 +55,7 @@ declare global {
       getState(): MatcherState
       setState(state: Partial<MatcherState>): void
       not: AsymmetricMatchersContaining
-      addEqualityTesters: (testers: Array<Tester>) => void
+      addCustomEqualityTesters: (testers: Array<Tester>) => void
     }
 
     interface AsymmetricMatchersContaining {
